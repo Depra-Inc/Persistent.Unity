@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace Depra.Persistent.Runtime
+namespace Depra.Persistent.Runtime.Storage
 {
 	public sealed class PlayerPrefsPersistentStorage : IPersistentStorage
 	{
@@ -14,15 +14,15 @@ namespace Depra.Persistent.Runtime
 			var type = persistent.StateType;
 			if (type == typeof(string))
 			{
-				PlayerPrefs.SetString(key, (string) persistent.CaptureState());
+				PlayerPrefs.SetString(key, (string)persistent.CaptureState());
 			}
 			else if (type == typeof(int))
 			{
-				PlayerPrefs.SetInt(key, (int) persistent.CaptureState());
+				PlayerPrefs.SetInt(key, (int)persistent.CaptureState());
 			}
 			else if (type == typeof(float))
 			{
-				PlayerPrefs.SetFloat(key, (float) persistent.CaptureState());
+				PlayerPrefs.SetFloat(key, (float)persistent.CaptureState());
 			}
 			else
 			{
