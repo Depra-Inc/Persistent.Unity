@@ -7,49 +7,44 @@ namespace Depra.Persistent.Runtime.Storage
 {
 	public sealed class PlayerPrefsPersistentStorage : IPersistentStorage
 	{
+		void IPersistentStorage.DeleteAll() => PlayerPrefs.DeleteAll();
+
 		bool IPersistentStorage.HasKey(string key) => PlayerPrefs.HasKey(key);
+
+		void IPersistentStorage.DeleteKey(string key) => PlayerPrefs.DeleteKey(key);
 
 		void IPersistentStorage.Save(string key, IPersistent persistent)
 		{
 			var type = persistent.StateType;
+			var state = persistent.CaptureState();
+
 			if (type == typeof(string))
 			{
-				PlayerPrefs.SetString(key, (string)persistent.CaptureState());
+				PlayerPrefs.SetString(key, (string) state);
 			}
 			else if (type == typeof(int))
 			{
-				PlayerPrefs.SetInt(key, (int)persistent.CaptureState());
+				PlayerPrefs.SetInt(key, (int) state);
 			}
 			else if (type == typeof(float))
 			{
-				PlayerPrefs.SetFloat(key, (float)persistent.CaptureState());
+				PlayerPrefs.SetFloat(key, (float) state);
 			}
 			else
 			{
-				PlayerPrefs.SetString(key, persistent.ToString());
+				var json = JsonUtility.ToJson(state);
+				PlayerPrefs.SetString(key, json);
 			}
 
 			PlayerPrefs.Save();
 		}
 
-		object IPersistentStorage.Load(string key, IPersistent persistent)
+		object IPersistentStorage.Load(string key, IPersistent persistent) => persistent.StateType switch
 		{
-			if (persistent.StateType == typeof(string))
-			{
-				return PlayerPrefs.GetString(key);
-			}
-
-			if (persistent.StateType == typeof(int))
-			{
-				return PlayerPrefs.GetInt(key);
-			}
-
-			if (persistent.StateType == typeof(float))
-			{
-				return PlayerPrefs.GetFloat(key);
-			}
-
-			return PlayerPrefs.GetString(key);
-		}
+			_ when persistent.StateType == typeof(int) => PlayerPrefs.GetInt(key),
+			_ when persistent.StateType == typeof(float) => PlayerPrefs.GetFloat(key),
+			_ when persistent.StateType == typeof(bool) => PlayerPrefs.GetInt(key) == 1,
+			_ => JsonUtility.FromJson(PlayerPrefs.GetString(key), persistent.StateType)
+		};
 	}
 }
