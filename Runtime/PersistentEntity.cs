@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Depra.Persistent.Runtime.Common.Module;
 
 namespace Depra.Persistent.Runtime
 {
+	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentEntity : MonoBehaviour, IPersistent
 	{
 		[field: SerializeField] public string Key { get; private set; }
 
-		public Type StateType => typeof(object);
+		private const string FILE_NAME = nameof(PersistentEntity);
+		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
+
+		Type IPersistent.StateType => typeof(object);
 
 		public object CaptureState()
 		{
@@ -23,7 +28,7 @@ namespace Depra.Persistent.Runtime
 
 		public void RestoreState(object state)
 		{
-			var stateDictionary = (Dictionary<string, object>)state;
+			var stateDictionary = (Dictionary<string, object>) state;
 			foreach (var persistent in GetComponents<IPersistent>())
 			{
 				var typeName = persistent.GetType().ToString();
@@ -34,7 +39,7 @@ namespace Depra.Persistent.Runtime
 			}
 		}
 
-		[ContextMenu(nameof(GenerateId))]
-		private void GenerateId() => Key = Guid.NewGuid().ToString();
+		[ContextMenu(nameof(GenerateKey))]
+		private void GenerateKey() => Key = Guid.NewGuid().ToString();
 	}
 }

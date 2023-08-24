@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Depra.Persistent.Runtime.Common.Module;
 
 namespace Depra.Persistent.Runtime.Transformation
 {
+	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentPath : MonoBehaviour, IPersistent
 	{
+		[SerializeField] private string _key;
 		[Min(0f)] [SerializeField] private float _minDistance = 1f;
 		[SerializeField] private List<TransformState> _savedStates;
-		[field: SerializeField] public string Key { get; private set; }
+
+		private const string FILE_NAME = nameof(PersistentPath);
+		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
 
 		private TransformState _lastState;
 
@@ -28,18 +33,15 @@ namespace Depra.Persistent.Runtime.Transformation
 			}
 		}
 
-		public Type StateType => typeof(List<TransformState>);
+		string IPersistent.Key => _key;
 
-		[ContextMenu(nameof(CaptureState))]
+		Type IPersistent.StateType => typeof(List<TransformState>);
+
+		[ContextMenu(nameof(CaptureIntermediateState))]
 		public void CaptureIntermediateState()
 		{
 			_lastState = new TransformState(transform);
 			_savedStates.Add(_lastState);
-		}
-
-		public object CaptureState()
-		{
-			return _savedStates;
 		}
 
 		public void RestoreState(List<TransformState> states)
@@ -57,5 +59,7 @@ namespace Depra.Persistent.Runtime.Transformation
 
 		void IPersistent.RestoreState(object state) =>
 			RestoreState((List<TransformState>) state);
+
+		object IPersistent.CaptureState() => _savedStates;
 	}
 }

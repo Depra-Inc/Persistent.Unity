@@ -7,5 +7,6 @@ namespace Depra.Persistent.Runtime.Common
 		
 		public const string FRAMEWORK_NAME = "Depra";
 		public const string MODULE_NAME = "Persistent";
+		public const string MODULE_PATH = FRAMEWORK_NAME + SEPARATOR + MODULE_NAME;
 	}
 }

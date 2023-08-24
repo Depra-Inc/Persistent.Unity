@@ -1,14 +1,21 @@
 using System;
 using UnityEngine;
+using static Depra.Persistent.Runtime.Common.Module;
 
 namespace Depra.Persistent.Runtime.Transformation
 {
+	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentTransformHierarchy : MonoBehaviour, IPersistent
 	{
-		[field: SerializeField] public string Key { get; private set; }
+		[SerializeField] private string _key;
 		[SerializeField] private TransformStates _states;
 
-		public Type StateType => typeof(TransformNode);
+		private const string FILE_NAME = nameof(PersistentTransformHierarchy);
+		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
+
+		string IPersistent.Key => _key;
+
+		Type IPersistent.StateType => typeof(TransformNode);
 
 		[ContextMenu(nameof(RecordTransforms))]
 		public void RecordTransforms()

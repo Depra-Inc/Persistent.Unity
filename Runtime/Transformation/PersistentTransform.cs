@@ -1,18 +1,20 @@
 using System;
 using UnityEngine;
+using static Depra.Persistent.Runtime.Common.Module;
 
 namespace Depra.Persistent.Runtime.Transformation
 {
+	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentTransform : MonoBehaviour, IPersistent
 	{
-		[field: SerializeField] public string Key { get; private set; }
+		[SerializeField] private string _key;
 
-		public Type StateType => typeof(TransformState);
+		private const string FILE_NAME = nameof(PersistentTransform);
+		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
 
-		public TransformState LastState { get; private set; }
+		string IPersistent.Key => _key;
 
-		public object CaptureState() =>
-			LastState = new TransformState(transform);
+		Type IPersistent.StateType => typeof(TransformState);
 
 		public void RestoreState(TransformState state)
 		{
@@ -20,7 +22,8 @@ namespace Depra.Persistent.Runtime.Transformation
 			transform.localScale = state.LocalScale;
 		}
 
-		void IPersistent.RestoreState(object state) =>
-			RestoreState(LastState = (TransformState) state);
+		void IPersistent.RestoreState(object state) => RestoreState((TransformState) state);
+
+		object IPersistent.CaptureState() => new TransformState(transform);
 	}
 }
