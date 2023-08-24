@@ -36,7 +36,7 @@ namespace Depra.Persistent.Runtime.Transformation
 
 		void IPersistent.RestoreState(object state)
 		{
-			_states.ParentNode = (TransformNode)state;
+			_states.ParentNode = (TransformNode) state;
 			transform.LoadTransformsRecursively(_states.ParentNode);
 		}
 	}

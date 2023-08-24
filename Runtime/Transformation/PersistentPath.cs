@@ -56,6 +56,6 @@ namespace Depra.Persistent.Runtime.Transformation
 		}
 
 		void IPersistent.RestoreState(object state) =>
-			RestoreState((List<TransformState>)state);
+			RestoreState((List<TransformState>) state);
 	}
 }
