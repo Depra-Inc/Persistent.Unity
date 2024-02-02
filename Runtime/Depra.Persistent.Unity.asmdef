@@ -1,6 +1,6 @@
 {
-    "name": "Depra.Persistent.Runtime",
-    "rootNamespace": "",
+    "name": "Depra.Persistent.Unity",
+    "rootNamespace": "Depra.Persistent",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

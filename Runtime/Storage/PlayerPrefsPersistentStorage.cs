@@ -1,17 +1,17 @@
-﻿// Copyright © 2023 Nikolay Melnikov. All rights reserved.
-// SPDX-License-Identifier: Apache-2.0
+﻿// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
 
 using UnityEngine;
 
-namespace Depra.Persistent.Runtime.Storage
+namespace Depra.Persistent.Storage
 {
 	public sealed class PlayerPrefsPersistentStorage : IPersistentStorage
 	{
 		void IPersistentStorage.DeleteAll() => PlayerPrefs.DeleteAll();
 
-		bool IPersistentStorage.HasKey(string key) => PlayerPrefs.HasKey(key);
+		bool IPersistentStorage.Has(string key) => PlayerPrefs.HasKey(key);
 
-		void IPersistentStorage.DeleteKey(string key) => PlayerPrefs.DeleteKey(key);
+		void IPersistentStorage.Delete(string key) => PlayerPrefs.DeleteKey(key);
 
 		void IPersistentStorage.Save(string key, IPersistent persistent)
 		{
@@ -32,8 +32,7 @@ namespace Depra.Persistent.Runtime.Storage
 			}
 			else
 			{
-				var json = JsonUtility.ToJson(state);
-				PlayerPrefs.SetString(key, json);
+				PlayerPrefs.SetString(key, JsonUtility.ToJson(state));
 			}
 
 			PlayerPrefs.Save();

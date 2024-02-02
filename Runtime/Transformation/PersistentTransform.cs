@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+
 using System;
 using UnityEngine;
-using static Depra.Persistent.Runtime.Common.Module;
+using static Depra.Persistent.Module;
 
-namespace Depra.Persistent.Runtime.Transformation
+namespace Depra.Persistent.Transformation
 {
 	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentTransform : MonoBehaviour, IPersistent
@@ -22,8 +25,8 @@ namespace Depra.Persistent.Runtime.Transformation
 			transform.localScale = state.LocalScale;
 		}
 
-		void IPersistent.RestoreState(object state) => RestoreState((TransformState) state);
-
 		object IPersistent.CaptureState() => new TransformState(transform);
+
+		void IPersistent.RestoreState(object state) => RestoreState((TransformState) state);
 	}
 }

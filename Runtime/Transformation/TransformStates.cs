@@ -1,7 +1,10 @@
-using UnityEngine;
-using static Depra.Persistent.Runtime.Common.Module;
+// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
 
-namespace Depra.Persistent.Runtime.Transformation
+using UnityEngine;
+using static Depra.Persistent.Module;
+
+namespace Depra.Persistent.Transformation
 {
 	[CreateAssetMenu(fileName = FILE_NAME, menuName = MENU_NAME, order = DEFAULT_ORDER)]
 	public sealed class TransformStates : ScriptableObject

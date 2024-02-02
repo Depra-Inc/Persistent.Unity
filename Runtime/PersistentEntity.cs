@@ -1,9 +1,12 @@
+// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Depra.Persistent.Runtime.Common.Module;
+using static Depra.Persistent.Module;
 
-namespace Depra.Persistent.Runtime
+namespace Depra.Persistent
 {
 	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentEntity : MonoBehaviour, IPersistent

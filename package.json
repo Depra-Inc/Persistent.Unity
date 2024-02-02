@@ -1,16 +1,16 @@
 {
-	"name": "com.depra.persistent",
+	"name": "com.depra.persistent.unity",
+	"version": "0.0.3",
 	"displayName": "Depra.Persistent",
 	"description": "Depra.Persistent module integration for Unity Engine.",
-	"version": "0.0.2",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
 	"keywords": [
-		"Depra",
-		"Persistent",
-		"Runtime",
-		"Save",
-		"Load"
+		"depra",
+		"unity",
+		"persistent",
+		"save",
+		"load"
 	],
 	"author": {
 		"name": "Depra, Inc.",
@@ -19,6 +19,6 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Depression-aggression/Persistent.Unity.git"
+		"url": "https://github.com/Depra-Inc/Persistent.Unity.git"
 	}
 }

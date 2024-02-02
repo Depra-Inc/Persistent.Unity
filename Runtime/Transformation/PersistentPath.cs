@@ -1,10 +1,13 @@
+// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Depra.Persistent.Runtime.Common.Module;
+using static Depra.Persistent.Module;
 
-namespace Depra.Persistent.Runtime.Transformation
+namespace Depra.Persistent.Transformation
 {
 	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
 	public sealed class PersistentPath : MonoBehaviour, IPersistent
@@ -57,9 +60,8 @@ namespace Depra.Persistent.Runtime.Transformation
 			_lastState.ApplyTo(transform);
 		}
 
-		void IPersistent.RestoreState(object state) =>
-			RestoreState((List<TransformState>) state);
-
 		object IPersistent.CaptureState() => _savedStates;
+
+		void IPersistent.RestoreState(object state) => RestoreState((List<TransformState>) state);
 	}
 }

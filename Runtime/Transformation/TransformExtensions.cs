@@ -1,7 +1,10 @@
+// SPDX-License-Identifier: Apache-2.0
+// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Depra.Persistent.Runtime.Transformation
+namespace Depra.Persistent.Transformation
 {
 	internal static class TransformExtensions
 	{
