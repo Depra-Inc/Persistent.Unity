@@ -1,16 +1,15 @@
 {
 	"name": "com.depra.persistent.unity",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"displayName": "Depra.Persistent",
 	"description": "Depra.Persistent module integration for Unity Engine.",
 	"unity": "2021.3",
 	"license": "Apache-2.0",
 	"keywords": [
-		"depra",
-		"unity",
-		"persistent",
 		"save",
-		"load"
+		"load",
+		"unity",
+		"persistent"
 	],
 	"author": {
 		"name": "Depra, Inc.",

@@ -7,13 +7,10 @@ using static Depra.Persistent.Module;
 
 namespace Depra.Persistent.Transformation
 {
-	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
+	[AddComponentMenu(MENU_PATH + nameof(PersistentTransform), DEFAULT_ORDER)]
 	public sealed class PersistentTransform : MonoBehaviour, IPersistent
 	{
 		[SerializeField] private string _key;
-
-		private const string FILE_NAME = nameof(PersistentTransform);
-		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
 
 		string IPersistent.Key => _key;
 

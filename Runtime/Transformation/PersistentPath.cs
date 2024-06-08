@@ -9,15 +9,12 @@ using static Depra.Persistent.Module;
 
 namespace Depra.Persistent.Transformation
 {
-	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
+	[AddComponentMenu(MENU_PATH + nameof(PersistentPath), DEFAULT_ORDER)]
 	public sealed class PersistentPath : MonoBehaviour, IPersistent
 	{
 		[SerializeField] private string _key;
-		[Min(0f)] [SerializeField] private float _minDistance = 1f;
+		[Min(0)] [SerializeField] private float _minDistance = 1;
 		[SerializeField] private List<TransformState> _savedStates;
-
-		private const string FILE_NAME = nameof(PersistentPath);
-		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
 
 		private TransformState _lastState;
 

@@ -1,19 +1,17 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
 // © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Depra.Persistent.Storage
 {
 	public sealed class PlayerPrefsPersistentStorage : IPersistentStorage
 	{
-		void IPersistentStorage.DeleteAll() => PlayerPrefs.DeleteAll();
+		bool IPersistentStorage.Contains(string key) => PlayerPrefs.HasKey(key);
 
-		bool IPersistentStorage.Has(string key) => PlayerPrefs.HasKey(key);
-
-		void IPersistentStorage.Delete(string key) => PlayerPrefs.DeleteKey(key);
-
-		void IPersistentStorage.Save(string key, IPersistent persistent)
+		void IPersistentStorage.Save(string key, IPersistent persistent, bool overwrite)
 		{
 			var type = persistent.StateType;
 			var state = persistent.CaptureState();
@@ -45,5 +43,11 @@ namespace Depra.Persistent.Storage
 			_ when persistent.StateType == typeof(bool) => PlayerPrefs.GetInt(key) == 1,
 			_ => JsonUtility.FromJson(PlayerPrefs.GetString(key), persistent.StateType)
 		};
+
+		void IPersistentStorage.Delete(string key) => PlayerPrefs.DeleteKey(key);
+
+		void IPersistentStorage.DeleteAll() => PlayerPrefs.DeleteAll();
+
+		IEnumerable<string> IPersistentStorage.EnumerateKeys() => Array.Empty<string>();
 	}
 }

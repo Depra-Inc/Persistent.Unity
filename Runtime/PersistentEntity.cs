@@ -8,13 +8,10 @@ using static Depra.Persistent.Module;
 
 namespace Depra.Persistent
 {
-	[AddComponentMenu(menuName: MENU_NAME, order: DEFAULT_ORDER)]
+	[AddComponentMenu(MENU_PATH + nameof(PersistentEntity), DEFAULT_ORDER)]
 	public sealed class PersistentEntity : MonoBehaviour, IPersistent
 	{
 		[field: SerializeField] public string Key { get; private set; }
-
-		private const string FILE_NAME = nameof(PersistentEntity);
-		private const string MENU_NAME = MODULE_PATH + SEPARATOR + FILE_NAME;
 
 		Type IPersistent.StateType => typeof(object);
 
