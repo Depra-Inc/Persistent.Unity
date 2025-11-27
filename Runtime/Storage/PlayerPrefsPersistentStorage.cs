@@ -1,5 +1,5 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
-// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2023-2025 Depra <n.melnikov@depra.org>
 
 using System;
 using System.Collections.Generic;
@@ -18,15 +18,19 @@ namespace Depra.Persistent.Storage
 
 			if (type == typeof(string))
 			{
-				PlayerPrefs.SetString(key, (string) state);
+				PlayerPrefs.SetString(key, (string)state);
 			}
 			else if (type == typeof(int))
 			{
-				PlayerPrefs.SetInt(key, (int) state);
+				PlayerPrefs.SetInt(key, (int)state);
 			}
 			else if (type == typeof(float))
 			{
-				PlayerPrefs.SetFloat(key, (float) state);
+				PlayerPrefs.SetFloat(key, (float)state);
+			}
+			else if (type == typeof(bool))
+			{
+				PlayerPrefs.SetInt(key, (bool)state ? 1 : 0);
 			}
 			else
 			{
