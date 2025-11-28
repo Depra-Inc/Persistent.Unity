@@ -1,6 +1,6 @@
 {
 	"name": "com.depra.persistent.unity",
-	"version": "0.0.5-pre.1",
+	"version": "0.0.5",
 	"displayName": "Depra.Persistent",
 	"description": "Depra.Persistent module integration for Unity Engine.",
 	"unity": "2021.3",
