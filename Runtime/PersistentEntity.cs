@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// © 2023-2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2023-2026 Depra <n.melnikov@depra.org>
 
 using System;
 using System.Collections.Generic;
@@ -9,37 +9,38 @@ using static Depra.Persistent.Module;
 namespace Depra.Persistent
 {
 	[AddComponentMenu(MENU_PATH + nameof(PersistentEntity), DEFAULT_ORDER)]
-	public sealed class PersistentEntity : MonoBehaviour, IPersistent
+	public sealed class PersistentEntity : MonoBehaviour, ISnapshotParticipant
 	{
-		[field: SerializeField] public string Key { get; private set; }
+		[SerializeField] private string _key;
 
-		Type IPersistent.StateType => typeof(object);
+		SnapshotKey ISnapshotParticipant.Key => SnapshotKey.ValueOf(_key);
+		Type ISnapshotParticipant.StateType => typeof(object);
 
-		public object CaptureState()
+		public object Capture()
 		{
 			var state = new Dictionary<string, object>();
-			foreach (var persistent in GetComponents<IPersistent>())
+			foreach (var persistent in GetComponents<ISnapshotParticipant>())
 			{
-				state[persistent.GetType().ToString()] = persistent.CaptureState();
+				state[persistent.GetType().ToString()] = persistent.Capture();
 			}
 
 			return state;
 		}
 
-		public void RestoreState(object state)
+		public void Restore(object state)
 		{
 			var stateDictionary = (Dictionary<string, object>) state;
-			foreach (var persistent in GetComponents<IPersistent>())
+			foreach (var persistent in GetComponents<ISnapshotParticipant>())
 			{
 				var typeName = persistent.GetType().ToString();
 				if (stateDictionary.TryGetValue(typeName, out var value))
 				{
-					persistent.RestoreState(value);
+					persistent.Restore(value);
 				}
 			}
 		}
 
 		[ContextMenu(nameof(GenerateKey))]
-		private void GenerateKey() => Key = Guid.NewGuid().ToString();
+		private void GenerateKey() => _key = Guid.NewGuid().ToString();
 	}
 }

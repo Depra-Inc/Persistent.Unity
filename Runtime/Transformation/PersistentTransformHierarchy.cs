@@ -8,14 +8,13 @@ using static Depra.Persistent.Module;
 namespace Depra.Persistent.Transformation
 {
 	[AddComponentMenu(MENU_PATH + nameof(PersistentTransformHierarchy), DEFAULT_ORDER)]
-	public sealed class PersistentTransformHierarchy : MonoBehaviour, IPersistent
+	public sealed class PersistentTransformHierarchy : MonoBehaviour, ISnapshotParticipant
 	{
 		[SerializeField] private string _key;
 		[SerializeField] private TransformStates _states;
 
-		string IPersistent.Key => _key;
-
-		Type IPersistent.StateType => typeof(TransformNode);
+		SnapshotKey ISnapshotParticipant.Key => SnapshotKey.ValueOf(_key);
+		Type ISnapshotParticipant.StateType => typeof(TransformNode);
 
 		[ContextMenu(nameof(RecordTransforms))]
 		public void RecordTransforms()
@@ -35,15 +34,15 @@ namespace Depra.Persistent.Transformation
 			}
 		}
 
-		object IPersistent.CaptureState()
+		object ISnapshotParticipant.Capture()
 		{
 			_states.ParentNode = transform.RecordTransformsRecursively();
 			return _states.ParentNode;
 		}
 
-		void IPersistent.RestoreState(object state)
+		void ISnapshotParticipant.Restore(object state)
 		{
-			_states.ParentNode = (TransformNode) state;
+			_states.ParentNode = (TransformNode)state;
 			transform.LoadTransformsRecursively(_states.ParentNode);
 		}
 	}

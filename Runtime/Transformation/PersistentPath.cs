@@ -10,7 +10,7 @@ using static Depra.Persistent.Module;
 namespace Depra.Persistent.Transformation
 {
 	[AddComponentMenu(MENU_PATH + nameof(PersistentPath), DEFAULT_ORDER)]
-	public sealed class PersistentPath : MonoBehaviour, IPersistent
+	public sealed class PersistentPath : MonoBehaviour, ISnapshotParticipant
 	{
 		[SerializeField] private string _key;
 		[Min(0)] [SerializeField] private float _minDistance = 1;
@@ -33,9 +33,8 @@ namespace Depra.Persistent.Transformation
 			}
 		}
 
-		string IPersistent.Key => _key;
-
-		Type IPersistent.StateType => typeof(List<TransformState>);
+		SnapshotKey ISnapshotParticipant.Key => SnapshotKey.ValueOf(_key);
+		Type ISnapshotParticipant.StateType => typeof(List<TransformState>);
 
 		[ContextMenu(nameof(CaptureIntermediateState))]
 		public void CaptureIntermediateState()
@@ -57,8 +56,8 @@ namespace Depra.Persistent.Transformation
 			_lastState.ApplyTo(transform);
 		}
 
-		object IPersistent.CaptureState() => _savedStates;
+		object ISnapshotParticipant.Capture() => _savedStates;
 
-		void IPersistent.RestoreState(object state) => RestoreState((List<TransformState>) state);
+		void ISnapshotParticipant.Restore(object state) => RestoreState((List<TransformState>) state);
 	}
 }
